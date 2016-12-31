@@ -5,19 +5,27 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chrismacholtz.inventoryapp.data.ItemContract.ItemEntry;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by SWS Customer on 12/23/2016.
@@ -28,6 +36,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private static final int LOADER_ID = 5;
     private static final String EDIT_ITEM = "Edit Item";
     private TextView mProductNameTextView;
+    private ImageView mImageView;
     private TextView mCategoryTextView;
     private TextView mPriceTextView;
     private TextView mQuantityTextView;
@@ -50,6 +59,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.detail_view);
 
         mProductNameTextView = (TextView) findViewById(R.id.product_name_detail);
+        mImageView = (ImageView) findViewById(R.id.image_detail);
         mCategoryTextView = (TextView) findViewById(R.id.category_detail);
         mPriceTextView = (TextView) findViewById(R.id.price_detail);
         mQuantityTextView = (TextView) findViewById(R.id.quantity_detail);
@@ -173,11 +183,61 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
+    public Bitmap getBitmapFromUri(Uri uri) {
+        if (uri == null || uri.toString().isEmpty())
+            return null;
+
+        // Get the dimensions of the View
+        int targetW = mImageView.getWidth();
+        int targetH = mImageView.getHeight();
+
+        InputStream input = null;
+        try {
+            input = this.getContentResolver().openInputStream(uri);
+
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(input, null, bmOptions);
+            input.close();
+
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            input = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(input, null, bmOptions);
+            input.close();
+            return bitmap;
+
+        } catch (FileNotFoundException fne) {
+            Log.e(LOG_TAG, "Failed to load image.", fne);
+            return null;
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to load image.", e);
+            return null;
+        } finally {
+            try {
+                input.close();
+            } catch (IOException ioe) {
+
+            }
+        }
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {
                 ItemEntry._ID,
                 ItemEntry.COLUMN_ITEM_NAME,
+                ItemEntry.COLUMN_ITEM_IMAGE_URI,
                 ItemEntry.COLUMN_ITEM_CATEGORY,
                 ItemEntry.COLUMN_ITEM_PRICE,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
@@ -197,6 +257,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.moveToFirst()) {
             int productNameColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
+            int productImageColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE_URI);
             int categoryColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_CATEGORY);
             int priceColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
             int quantityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
@@ -209,6 +270,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             int providerPrice3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE);
 
             String productName = data.getString(productNameColumnIndex);
+            Uri productImageUri = Uri.parse(data.getString(productImageColumnIndex));
             int categoryInt = data.getInt(categoryColumnIndex);
             float fProductPrice = data.getFloat(priceColumnIndex);
             String priceString = "Sale Price: $" + String.format("%.2f", fProductPrice);
@@ -220,6 +282,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             mPriceTextView.setText(priceString);
             mQuantityTextView.setText(quantityString);
             mEnrouteTextView.setText(enrouteString);
+
+            mImageView.setImageBitmap(getBitmapFromUri(productImageUri));
 
             if (data.getString(providerName1ColumnIndex) != null) {
                 String providerName1 = getProviderName(data.getInt(providerName1ColumnIndex));

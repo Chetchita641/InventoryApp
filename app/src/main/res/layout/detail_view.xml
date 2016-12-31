@@ -89,52 +89,16 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/image_detail"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_weight="3"
-                android:orientation="vertical">
+                android:scaleType="centerInside"
+                android:src="@drawable/switch_pic">
 
-                <ImageView
-                    android:id="@+id/trend_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="16dp"
-                    android:background="@drawable/attention_circle"
-                    android:src="@drawable/ic_arrow_upward_white_24dp" />
 
-                <TextView
-                    android:id="@+id/trend_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/trend_icon"
-                    android:gravity="center"
-                    android:paddingRight="8dp"
-                    android:text="Selling well" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/image_layout"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp">
-
-            <ImageView
-                android:id="@+id/image_detail1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/switch_pic" />
-
-            <ImageView
-                android:id="@+id/image_detail2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/switch_pic2" />
-
+            </ImageView>
         </LinearLayout>
 
         <TextView

@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 ItemEntry._ID,
                 ItemEntry.COLUMN_ITEM_NAME,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
+                ItemEntry.COLUMN_ITEM_ENROUTE,
                 ItemEntry.COLUMN_ITEM_PRICE};
 
         String selection;

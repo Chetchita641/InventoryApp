@@ -1,11 +1,16 @@
 package com.chrismacholtz.inventoryapp;
 
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
@@ -20,28 +25,32 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.chrismacholtz.inventoryapp.data.ItemContract.ItemEntry;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static com.chrismacholtz.inventoryapp.data.ItemProvider.LOG_TAG;
+
 /**
  * Created by SWS Customer on 12/23/2016.
  */
 
 public class EditItemActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    //TODO: Set up adding fields
-    //TODO: Store information in database
     private static final int LOADER_ID = 6;
-
+    private static final int PICK_IMAGE_REQUEST = 0;
     private EditText mProductNameEditText;
     private Spinner mCategorySpinner;
     private int mCategory = 0;
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
     private EditText mEnrouteEditText;
-
     private LinearLayout mProviderLayout1;
     private LinearLayout mProviderLayout2;
     private LinearLayout mProviderLayout3;
@@ -54,7 +63,8 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
     private EditText mProviderPriceEditText1;
     private EditText mProviderPriceEditText2;
     private EditText mProviderPriceEditText3;
-
+    private ImageView mImageView;
+    private Uri mImageUri;
     private Uri mCurrentItemUri;
 
     private boolean mItemHasChanged = false;
@@ -104,6 +114,31 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
         }
 
         setupSpinner();
+
+        mImageView = (ImageView) findViewById(R.id.image_add);
+        if (mImageUri != null) {
+            mImageView.setImageBitmap(getBitmapFromUri(mImageUri));
+        } else {
+            mImageView.setImageResource(R.drawable.ic_insert_photo_black_48dp);
+        }
+
+//        ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
+//        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                mImageView.setImageBitmap(getBitmapFromUri(mImageUri));
+//            }
+//        });
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageSelector();
+                mImageView.setImageBitmap(getBitmapFromUri(mImageUri));
+            }
+        });
+
     }
 
     @Override
@@ -344,6 +379,7 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
         }
 
         values.put(ItemEntry.COLUMN_ITEM_NAME, productName);
+        values.put(ItemEntry.COLUMN_ITEM_IMAGE_URI, String.valueOf(mImageUri));
         values.put(ItemEntry.COLUMN_ITEM_CATEGORY, mCategory);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, Float.parseFloat(priceString));
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, Integer.parseInt(quantityString));
@@ -405,11 +441,95 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
         }
     }
 
+    public void openImageSelector() {
+        Intent intent;
+
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        // The ACTION_OPEN_DOCUMENT intent was sent with the request code READ_REQUEST_CODE.
+        // If the request code seen here doesn't match, it's the response to some other intent,
+        // and the below code shouldn't run at all.
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            // The document selected by the user won't be returned in the intent.
+            // Instead, a URI to that document will be contained in the return intent
+            // provided to this method as a parameter.  Pull that uri using "resultData.getData()"
+
+            if (resultData != null) {
+                mImageUri = resultData.getData();
+                Log.i(LOG_TAG, "Uri: " + mImageUri.toString());
+
+                mImageView.setImageBitmap(getBitmapFromUri(mImageUri));
+            }
+        }
+    }
+
+    public Bitmap getBitmapFromUri(Uri uri) {
+        if (uri == null || uri.toString().isEmpty())
+            return null;
+
+        // Get the dimensions of the View
+        int targetW = mImageView.getWidth();
+        int targetH = mImageView.getHeight();
+
+        InputStream input = null;
+        try {
+            input = this.getContentResolver().openInputStream(uri);
+
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(input, null, bmOptions);
+            input.close();
+
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            input = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(input, null, bmOptions);
+            input.close();
+            return bitmap;
+
+        } catch (FileNotFoundException fne) {
+            Log.e(LOG_TAG, "Failed to load image.", fne);
+            return null;
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to load image.", e);
+            return null;
+        } finally {
+            try {
+                input.close();
+            } catch (IOException ioe) {
+
+            }
+        }
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {
                 ItemEntry._ID,
                 ItemEntry.COLUMN_ITEM_NAME,
+                ItemEntry.COLUMN_ITEM_IMAGE_URI,
                 ItemEntry.COLUMN_ITEM_CATEGORY,
                 ItemEntry.COLUMN_ITEM_PRICE,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
@@ -429,6 +549,7 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.moveToFirst()) {
             int productNameColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
+            int productImageUriColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE_URI);
             int priceColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
             int quantityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
             int enrouteColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ENROUTE);
@@ -455,6 +576,10 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
             if (data.getInt(providerName3ColumnIndex) != 0) {
                 mProviderSpinner3.setSelection(data.getInt(providerName3ColumnIndex));
                 mProviderPriceEditText3.setText(data.getString(providerPrice3ColumnIndex));
+            }
+
+            if (data.getString(productImageUriColumnIndex) != null) {
+                mImageUri = Uri.parse(data.getString(productImageUriColumnIndex));
             }
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,41 +11,38 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/product_name_edit"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
                         android:hint="Product Name"
                         android:paddingLeft="8dp" />
-
-                    <Spinner
-                        android:id="@+id/category_spinner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="16dp" />
-
                 </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/category_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="4dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingBottom="8dp">
 
@@ -71,88 +69,66 @@
                             android:inputType="numberDecimal" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/quantity_detail"
-                            style="@style/detailBody"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="8dp"
-                            android:text="Qty:" />
-
-                        <EditText
-                            android:id="@+id/quantity_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:inputType="number" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            style="@style/detailBody"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="8dp"
-                            android:text="Enroute:" />
-
-                        <EditText
-                            android:id="@+id/enroute_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:inputType="number" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/image_add"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:scaleType="centerInside"
+                tools:src="@drawable/ic_insert_photo_black_48dp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/image_layout"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/image_add1"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/image_add"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_add_a_photo_black_24dp" />
+                android:layout_weight="2"
+                android:gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/image_add2"
+                <TextView
+                    android:id="@+id/quantity_detail"
+                    style="@style/detailBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:text="Qty:" />
+
+                <EditText
+                    android:id="@+id/quantity_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/image_add"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_add_a_photo_black_24dp" />
+                android:layout_weight="3"
+                android:gravity="center_vertical">
 
+                <TextView
+                    style="@style/detailBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:text="Enroute:" />
+
+                <EditText
+                    android:id="@+id/enroute_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:inputType="number" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -189,7 +165,6 @@
                     android:layout_weight="1"
                     android:hint="Price"
                     android:inputType="numberDecimal" />
-
             </LinearLayout>
         </LinearLayout>
 
@@ -218,7 +193,6 @@
                     android:layout_weight="1"
                     android:hint="Price"
                     android:inputType="numberDecimal" />
-
             </LinearLayout>
         </LinearLayout>
 
@@ -247,7 +221,6 @@
                     android:layout_weight="1"
                     android:hint="Price"
                     android:inputType="numberDecimal" />
-
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
