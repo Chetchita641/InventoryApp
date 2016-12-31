@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Inventory App</string>
+
+    <string name="no_supplier">None</string>
+    <string name="supplier1">Stark Industries</string>
+    <string name="supplier2">LexCorp</string>
+    <string name="supplier3">Wayne Enterprises</string>
+    <string name="supplier4">ACME Corporation</string>
+    <string name="supplier5">Aviato</string>
+    <string name="supplier6">Pied Piper</string>
+
+    <string name="delete_dialog_msg">Delete this Item?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="unsaved_changes_dialog_msg">Discard unsaved changes?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+
+    <string name="category_all">All</string>
+    <string name="category1">Games</string>
+    <string name="category2">Consoles</string>
+    <string name="category3">Accessories</string>
+    <string name="category4">Swag</string>
+
+</resources>

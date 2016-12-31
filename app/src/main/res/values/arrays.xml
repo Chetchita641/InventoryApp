@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- These are the options displayed in the gender drop-down Spinner -->
+    <string-array name="array_suppliers">
+        <item>@string/no_supplier</item>
+        <item>@string/supplier1</item>
+        <item>@string/supplier2</item>
+        <item>@string/supplier3</item>
+        <item>@string/supplier4</item>
+        <item>@string/supplier5</item>
+        <item>@string/supplier6</item>
+    </string-array>
+    <string-array name="array_categories">
+        <item>@string/category_all</item>
+        <item>@string/category1</item>
+        <item>@string/category2</item>
+        <item>@string/category3</item>
+        <item>@string/category4</item>
+    </string-array>
+</resources>

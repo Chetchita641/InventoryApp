@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:id="@+id/product_name_detail"
+                        style="@style/detailHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Nintendo Switch" />
+
+                    <TextView
+                        android:id="@+id/category_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="2dp"
+                        android:text="Consoles" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/price_detail"
+                        style="@style/detailBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        tools:text="Sale Price:  $299.99" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/quantity_detail"
+                        style="@style/detailBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:paddingLeft="8dp"
+                        android:text="Qty:  8" />
+
+                    <TextView
+                        android:id="@+id/enroute_detail"
+                        style="@style/detailBody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:text="Enroute:  10" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/trend_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/attention_circle"
+                    android:src="@drawable/ic_arrow_upward_white_24dp" />
+
+                <TextView
+                    android:id="@+id/trend_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/trend_icon"
+                    android:gravity="center"
+                    android:paddingRight="8dp"
+                    android:text="Selling well" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/image_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/image_detail1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/switch_pic" />
+
+            <ImageView
+                android:id="@+id/image_detail2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/switch_pic2" />
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/detailHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="32dp"
+            android:text="Suppliers" />
+
+        <LinearLayout
+            android:id="@+id/provider_layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/provider_name1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                tools:text="Nintendo" />
+
+            <TextView
+                android:id="@+id/provider_price1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                tools:text="$209.45 / per unit" />
+
+            <Button
+                android:id="@+id/provider_order1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Order" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/provider_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/provider_name2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                tools:text="Games R Us (also other things too)" />
+
+            <TextView
+                android:id="@+id/provider_price2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                tools:text="$209.45 / per unit" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Order" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/provider_layout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/provider_name3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                tools:text="Nintendo" />
+
+            <TextView
+                android:id="@+id/provider_price3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                tools:text="$209.45 / per unit" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Order" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
