@@ -10,6 +10,7 @@
     <string name="supplier6">Pied Piper</string>
 
     <string name="delete_dialog_msg">Delete this Item?</string>
+    <string name="delete_all_dialog_msg">Delete the entire invetory?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 
@@ -22,5 +23,7 @@
     <string name="category2">Consoles</string>
     <string name="category3">Accessories</string>
     <string name="category4">Swag</string>
+
+    <string name="order_summary_email_subject">ORDER: </string>
 
 </resources>

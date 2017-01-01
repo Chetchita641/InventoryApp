@@ -3,11 +3,13 @@ package com.chrismacholtz.inventoryapp;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCategoryTextView3 = (TextView) findViewById(R.id.menu_item3);
         mCategoryTextView4 = (TextView) findViewById(R.id.menu_item4);
 
-        //TODO: Set up menu logic
-        //TODO: Handle Category logic and listeners
         mCategoryAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        //TODO: Set up Floating Action Button search
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        getLoaderManager().initLoader(mCurrentCategory, null, this);
+        changeCategory(mCurrentCategory);
     }
 
     @Override
@@ -112,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case (R.id.action_insert_dummy_data):
                 insertDummyData();
                 return true;
-            case (R.id.action_sort):
+            case (R.id.action_delete_all):
+                showDeleteConfirmationDialog();
                 return true;
         }
 
@@ -164,6 +163,36 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         getLoaderManager().initLoader(mCurrentCategory, null, this);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_all_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteAll();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteAll() {
+        getContentResolver().delete(ItemEntry.CONTENT_URI, null, null);
     }
 
     @Override

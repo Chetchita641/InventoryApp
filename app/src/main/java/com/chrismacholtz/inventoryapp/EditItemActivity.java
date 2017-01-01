@@ -550,6 +550,7 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
         if (data.moveToFirst()) {
             int productNameColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
             int productImageUriColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE_URI);
+            int categoryColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_CATEGORY);
             int priceColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
             int quantityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
             int enrouteColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ENROUTE);
@@ -564,6 +565,7 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
             mPriceEditText.setText(data.getString(priceColumnIndex));
             mQuantityEditText.setText(data.getString(quantityColumnIndex));
             mEnrouteEditText.setText(data.getString(enrouteColumnIndex));
+            mCategorySpinner.setSelection(data.getInt(categoryColumnIndex));
 
             if (data.getInt(providerName1ColumnIndex) != 0) {
                 mProviderSpinner1.setSelection(data.getInt(providerName1ColumnIndex));

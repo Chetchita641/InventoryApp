@@ -95,7 +95,7 @@
                 android:layout_height="150dp"
                 android:layout_weight="3"
                 android:scaleType="centerInside"
-                android:src="@drawable/switch_pic">
+                android:src="@drawable/ic_insert_photo_black_48dp">
 
 
             </ImageView>
@@ -123,13 +123,49 @@
                 android:padding="16dp"
                 tools:text="Nintendo" />
 
-            <TextView
-                android:id="@+id/provider_price1"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                tools:text="$209.45 / per unit" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/provider_minus1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="-" />
+
+                    <TextView
+                        android:id="@+id/num_order1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="1" />
+
+                    <Button
+                        android:id="@+id/provider_plus1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="+" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/provider_price1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal"
+                    tools:text="$209.45 / per unit" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/provider_order1"
@@ -154,15 +190,52 @@
                 android:padding="16dp"
                 tools:text="Games R Us (also other things too)" />
 
-            <TextView
-                android:id="@+id/provider_price2"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                tools:text="$209.45 / per unit" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/provider_minus2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="-" />
+
+                    <TextView
+                        android:id="@+id/num_order2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="1" />
+
+                    <Button
+                        android:id="@+id/provider_plus2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="+" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/provider_price2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal"
+                    tools:text="$209.45 / per unit" />
+
+            </LinearLayout>
 
             <Button
+                android:id="@+id/provider_order2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -183,15 +256,52 @@
                 android:padding="16dp"
                 tools:text="Nintendo" />
 
-            <TextView
-                android:id="@+id/provider_price3"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                tools:text="$209.45 / per unit" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/provider_minus3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="-" />
+
+                    <TextView
+                        android:id="@+id/num_order3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="1" />
+
+                    <Button
+                        android:id="@+id/provider_plus3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="+" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/provider_price3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal"
+                    tools:text="$209.45 / per unit" />
+
+            </LinearLayout>
 
             <Button
+                android:id="@+id/provider_order3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
