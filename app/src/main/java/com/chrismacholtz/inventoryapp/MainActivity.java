@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.chrismacholtz.inventoryapp.data.ItemContract.ItemEntry;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String ADD_ITEM = "Add an Item";
     private ItemCursorAdapter mCursorAdapter;
     private ListView mListView;
     private TextView mEmptyView;
@@ -37,10 +35,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView mCategoryTextView4;
     private int mCurrentCategory = 0;
 
-    //private int[] mQuantityArray;
-    //private int[] mEnrouteArray;
-    //private long[] mUpdateIds;
-
+    //Each of these arrays are matched by index
     private ArrayList<Integer> mQuantityArray;
     private ArrayList<Integer> mEnrouteArray;
     private ArrayList<Long> mUpdateIds;
@@ -61,10 +56,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCategoryTextView3 = (TextView) findViewById(R.id.menu_item3_main);
         mCategoryTextView4 = (TextView) findViewById(R.id.menu_item4_main);
 
+        //Arrays allowing to shift enroute numbers to quantity numbers via "Shipment Arrival" in the menu bar
         mQuantityArray = new ArrayList<>();
         mEnrouteArray = new ArrayList<>();
         mUpdateIds = new ArrayList<>();
 
+        //A homemade Tab layout
         mCategoryAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        //Click = detailed view pops up
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("Item ID", "" + id);
                 Uri currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.setData(currentItemUri);
@@ -107,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        //Click = sales view pops up
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sale_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +122,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return true;
     }
 
+    /**
+     * Add Item: Adds item via EditItemActivity
+     * Shipment Arrival: Transfers enroute numbers to current quantity numbers. Used to simulate a delivery truck coming in.
+     * Insert Dummy Data: Inserts a selection of fake data in a variety of categories
+     * Delete All: Y'know, if you want to watch the world burn, go ahead
+     **/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -146,36 +150,42 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
+    //Takes the products' enroute numbers and transfers them into the current quantity numbers. Used to simulate a delivery truck coming in.
     private void shipmentArrival() {
         ContentValues values = new ContentValues();
         Uri currentItemUri;
+        boolean updateSuccess = false;
+
         for (int i = 0; i < mUpdateIds.size(); i++) {
-            Log.v("mUpdateId", "" + mUpdateIds.get(i));
             int newQuantity = mQuantityArray.get(i) + mEnrouteArray.get(i);
-            Log.v("newQuantity", "" + newQuantity);
 
             values.put(ItemEntry.COLUMN_ITEM_QUANTITY, newQuantity);
             values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 0);
             currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, mUpdateIds.get(i));
             int rowUpdated = getContentResolver().update(currentItemUri, values, null, null);
-            if (rowUpdated != 0) {
-                Toast toast = Toast.makeText(this, "Shipment Arrival", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Toast toast = Toast.makeText(this, "Error updating quantities", Toast.LENGTH_SHORT);
-                toast.show();
+            if (rowUpdated != 0 || updateSuccess) {
+                updateSuccess = true;
             }
+        }
+
+        if (updateSuccess) {
+            Toast toast = Toast.makeText(this, getString(R.string.shipment_arrival_success), Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(this, getString(R.string.shipment_arrival_error), Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
+    //Long list of dummy data. Sorry, video games was all I could think of at the time. Also, a bit of a Nintendo fan here.
     private void insertDummyData() {
         ContentValues values = new ContentValues();
         values.put(ItemEntry.COLUMN_ITEM_NAME, "Nintendo Switch");
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 1);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 249.99f);
         values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 4);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 2);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 205.47f);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1, 2);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE, 205.47f);
         values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 2);
         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         values.clear();
@@ -184,8 +194,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 24);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 39.99f);
         values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 4);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 4);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 32.76f);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1, 4);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE, 32.76f);
         values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 1);
         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         values.clear();
@@ -194,8 +204,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 65);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 39.99f);
         values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 10);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 3);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 32.76f);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1, 3);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE, 32.76f);
         values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 1);
         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         values.clear();
@@ -204,8 +214,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 5);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 19.99f);
         values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 10);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 6);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 32.76f);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1, 6);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE, 32.76f);
         values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 3);
         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         values.clear();
@@ -214,13 +224,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 6);
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 14.99f);
         values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 2);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 1);
-        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 4.76f);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1, 1);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE, 4.76f);
         values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 4);
         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         values.clear();
     }
 
+    //A homemade tab layout. Contains the LoaderManager call.
     private void changeCategory(int index) {
         final int DARK = getResources().getColor(R.color.colorPrimaryDark);
         final int SELECTION = getResources().getColor(R.color.colorAccent);
@@ -255,6 +266,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getLoaderManager().initLoader(mCurrentCategory, null, this);
     }
 
+    //Copied from Udacity's Pets project
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
@@ -281,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         alertDialog.show();
     }
 
+    //Sssssssssssssssss.... KABOOM!
     private void deleteAll() {
         getContentResolver().delete(ItemEntry.CONTENT_URI, null, null);
     }
@@ -294,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 ItemEntry.COLUMN_ITEM_ENROUTE,
                 ItemEntry.COLUMN_ITEM_PRICE};
 
+        //Check if a category has been clicked. If so, only load that category.
         String selection = null;
         String[] selectionArgs = null;
         if (mCurrentCategory != 0) {
@@ -309,6 +323,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         int enrouteColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ENROUTE);
         int idColumnIndex = data.getColumnIndex(ItemEntry._ID);
 
+        //Go through each of the cursor entries. If an entry is a repeat, then find the index and put its information in the corresponding mQuantity
+        // and mEnroute ArrayLists
         while (data.moveToNext()) {
             long id = data.getLong(idColumnIndex);
             if (!mUpdateIds.contains(id)) {

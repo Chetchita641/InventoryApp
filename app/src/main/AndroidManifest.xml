@@ -17,6 +17,7 @@
         </activity>
         <activity
             android:name=".DetailActivity"
+            android:label="Item Detail"
             android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,9 +27,11 @@
         </activity>
         <activity
             android:name=".EditItemActivity"
+            android:label="Edit Item"
             android:parentActivityName=".DetailActivity" />
         <activity
             android:name=".SalesActivity"
+            android:label="Sales"
             android:parentActivityName=".MainActivity" />
 
         <provider

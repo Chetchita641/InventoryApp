@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Inventory App</string>
 
+    <!-- Strings for category tab names -->
+    <string name="category_all">All</string>
+    <string name="category1">Games</string>
+    <string name="category2">Consoles</string>
+    <string name="category3">Accessories</string>
+    <string name="category4">Swag</string>
+
+    <!--Strings for main_layout and sales_layout -->
     <string name="no_supplier">None</string>
     <string name="supplier1">Stark Industries</string>
     <string name="supplier2">LexCorp</string>
@@ -8,21 +16,49 @@
     <string name="supplier4">ACME Corporation</string>
     <string name="supplier5">Aviato</string>
     <string name="supplier6">Pied Piper</string>
+    <string name="unknown_supplier">Unknown</string>
+    <string name="empty_view_string">Nothing left in inventory</string>
+    <string name="sales">Sales</string>
+    <string name="buy">Buy</string>
 
+    <!-- Strings for detail_view and detail_edit -->
+    <string name="suppliers">Suppliers</string>
+    <string name="order">Order</string>
+    <string name="product_name">Product Name</string>
+    <string name="sale_price">Sale Price:  $</string>
+    <string name="qty">Qty:</string>
+    <string name="enroute">Enroute:</string>
+    <string name="price">Price</string>
+
+    <!-- Strings for menu items -->
+    <string name="add_item">Add Item</string>
+    <string name="shipment_arrival">Shipment Arrival</string>
+    <string name="insert_dummy_data">Insert Dummy Data</string>
+    <string name="delete_all">Delete All</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+
+    <!-- Strings for delete alert -->
     <string name="delete_dialog_msg">Delete this Item?</string>
     <string name="delete_all_dialog_msg">Delete the entire invetory?</string>
-    <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 
+    <!-- Strings for unsaved changes alert -->
     <string name="unsaved_changes_dialog_msg">Discard unsaved changes?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep Editing</string>
 
-    <string name="category_all">All</string>
-    <string name="category1">Games</string>
-    <string name="category2">Consoles</string>
-    <string name="category3">Accessories</string>
-    <string name="category4">Swag</string>
+    <!-- Strings for activity toast messages -->
+    <string name="shipment_arrival_success">Shipment has arrived</string>
+    <string name="shipment_arrival_error">Error updating quantities</string>
+    <string name="delete_item_sucess">Item Deleted</string>
+    <string name="delete_item_error">Error in deleting Item</string>
+    <string name="enroute_update_success">Enroute updated</string>
+    <string name="enroute_update_error">Error updating Enroute</string>
+    <string name="saving_supplier_error">Error saving supplier #</string>
+    <string name="buy_success">Quantities updated</string>
+    <string name="buy_error">Error updating quantities</string>
 
     <string name="order_summary_email_subject">ORDER: </string>
 

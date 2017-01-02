@@ -148,33 +148,33 @@ public class ItemProvider extends ContentProvider {
             if (enroute < 0)
                 throw new IllegalArgumentException("Error enroute less than 0");
         }
-        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_PROVIDER_1)) {
-            String provider = contentValues.getAsString(ItemEntry.COLUMN_ITEM_PROVIDER_1);
+        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER_1)) {
+            String provider = contentValues.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER_1);
             if (provider.isEmpty())
                 throw new IllegalArgumentException("Error saving blank provider(1)");
         }
-        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE)) {
-            Integer price = contentValues.getAsInteger(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE);
+        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE)) {
+            Integer price = contentValues.getAsInteger(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE);
             if (price < 0)
                 throw new IllegalArgumentException("Error price less than 0");
         }
-        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_PROVIDER_2)) {
-            String provider = contentValues.getAsString(ItemEntry.COLUMN_ITEM_PROVIDER_2);
+        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER_2)) {
+            String provider = contentValues.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER_2);
             if (provider.isEmpty())
                 throw new IllegalArgumentException("Error saving blank provider(1)");
         }
-        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE)) {
-            Integer price = contentValues.getAsInteger(ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE);
+        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE)) {
+            Integer price = contentValues.getAsInteger(ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE);
             if (price < 0)
                 throw new IllegalArgumentException("Error price less than 0");
         }
-        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_PROVIDER_3)) {
-            String provider = contentValues.getAsString(ItemEntry.COLUMN_ITEM_PROVIDER_3);
+        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER_3)) {
+            String provider = contentValues.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER_3);
             if (provider.isEmpty())
                 throw new IllegalArgumentException("Error saving blank provider(1)");
         }
-        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE)) {
-            Integer price = contentValues.getAsInteger(ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE);
+        if (contentValues.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE)) {
+            Integer price = contentValues.getAsInteger(ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE);
             if (price < 0)
                 throw new IllegalArgumentException("Error price less than 0");
         }

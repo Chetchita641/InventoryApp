@@ -25,12 +25,12 @@ public class ItemContract {
         public static final String COLUMN_ITEM_PRICE = "price";
         public static final String COLUMN_ITEM_CATEGORY = "category";
         public static final String COLUMN_ITEM_ENROUTE = "enroute";
-        public static final String COLUMN_ITEM_PROVIDER_1 = "provider1";
-        public static final String COLUMN_ITEM_PROVIDER_2 = "provider2";
-        public static final String COLUMN_ITEM_PROVIDER_3 = "provider3";
-        public static final String COLUMN_ITEM_PROVIDER_1_PRICE = "provider1price";
-        public static final String COLUMN_ITEM_PROVIDER_2_PRICE = "provider2price";
-        public static final String COLUMN_ITEM_PROVIDER_3_PRICE = "provider3price";
+        public static final String COLUMN_ITEM_SUPPLIER_1 = "supplier1";
+        public static final String COLUMN_ITEM_SUPPLIER_2 = "supplier2";
+        public static final String COLUMN_ITEM_SUPPLIER_3 = "supplier3";
+        public static final String COLUMN_ITEM_SUPPLIER_1_PRICE = "supplier1price";
+        public static final String COLUMN_ITEM_SUPPLIER_2_PRICE = "supplier2price";
+        public static final String COLUMN_ITEM_SUPPLIER_3_PRICE = "supplier3price";
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of pets.

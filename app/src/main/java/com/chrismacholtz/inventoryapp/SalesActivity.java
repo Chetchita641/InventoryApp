@@ -20,7 +20,7 @@ import com.chrismacholtz.inventoryapp.data.ItemContract.ItemEntry;
 import java.util.ArrayList;
 
 public class SalesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String ADD_ITEM = "Add an Item";
+    //The tax rate in Tucson, AZ
     private static final float TAX = 0.081f;
 
     private ItemCursorAdapter mCursorAdapter;
@@ -36,10 +36,7 @@ public class SalesActivity extends AppCompatActivity implements LoaderManager.Lo
     private float mTaxTotal = 0f;
     private float mGrandTotal = 0f;
 
-    //private int[] mQuantityArray;
-    //private long[] mUpdateIds;
-    private boolean initialLoad = true;
-
+    //Both ArrayLists have corresponding indexes. mUpdateIds keeps a log of the products choosen, while mQuantityArray logs in the quantities
     private ArrayList<Long> mUpdateIds;
     private ArrayList<Integer> mQuantityArray;
 
@@ -114,6 +111,7 @@ public class SalesActivity extends AppCompatActivity implements LoaderManager.Lo
         changeCategory(mCurrentCategory);
     }
 
+    //A homemade tab layout
     private void changeCategory(int index) {
         final int DARK = getResources().getColor(R.color.colorPrimaryDark);
         final int SELECTION = getResources().getColor(R.color.colorAccent);
@@ -148,14 +146,17 @@ public class SalesActivity extends AppCompatActivity implements LoaderManager.Lo
         getLoaderManager().initLoader(mCurrentCategory, null, this);
     }
 
+    //Finds the information on the clicked item and creates an invoice. Also updates the Grand Total with tax included.
     private void addToSale(String productName, int quantity, float price, long id) {
         TextView productNameSalesTextView = (TextView) findViewById(R.id.sales_product_name);
         TextView totalSalesTextView = (TextView) findViewById(R.id.sales_total);
         TextView taxTextView = (TextView) findViewById(R.id.sales_tax);
         TextView grandTotalTextView = (TextView) findViewById(R.id.sales_grand_total);
 
+        //Calculate the hypothetical quantity after purchasing. If a user does choose to purchase, adjust the real quantities.
         int afterQuantity;
         int index;
+
         if (!mUpdateIds.contains(id)) {
             mUpdateIds.add(id);
             index = mUpdateIds.indexOf(id);
@@ -183,20 +184,27 @@ public class SalesActivity extends AppCompatActivity implements LoaderManager.Lo
 
     }
 
+    //Once the user presses the buy button, this method is called. mUpdateIds is cycled through to
+    //find the products choosen and the new quantities are stored in the database
     private void buyProducts() {
         ContentValues values = new ContentValues();
         Uri currentItemUri;
+        boolean updateSuccess = false;
         for (int i = 0; i < mUpdateIds.size(); i++) {
             values.put(ItemEntry.COLUMN_ITEM_QUANTITY, mQuantityArray.get(i));
             currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, mUpdateIds.get(i));
             int rowUpdated = getContentResolver().update(currentItemUri, values, null, null);
-            if (rowUpdated != 0) {
-                Toast toast = Toast.makeText(this, "Quantities updated", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Toast toast = Toast.makeText(this, "Error updating quantities", Toast.LENGTH_SHORT);
-                toast.show();
+            if (rowUpdated != 0 || updateSuccess) {
+                updateSuccess = true;
             }
+        }
+
+        if (updateSuccess) {
+            Toast toast = Toast.makeText(this, getString(R.string.buy_success), Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(this, getString(R.string.buy_error), Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         finish();
@@ -211,6 +219,7 @@ public class SalesActivity extends AppCompatActivity implements LoaderManager.Lo
                 ItemEntry.COLUMN_ITEM_ENROUTE,
                 ItemEntry.COLUMN_ITEM_PRICE};
 
+        //Find if a category tab is selected. If so, only load that category.
         String selection;
         String[] selectionArgs;
         if (mCurrentCategory != 0) {
