@@ -27,6 +27,9 @@
         <activity
             android:name=".EditItemActivity"
             android:parentActivityName=".DetailActivity" />
+        <activity
+            android:name=".SalesActivity"
+            android:parentActivityName=".MainActivity" />
 
         <provider
             android:name=".data.ItemProvider"

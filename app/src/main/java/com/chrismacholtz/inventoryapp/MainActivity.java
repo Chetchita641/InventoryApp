@@ -3,20 +3,27 @@ package com.chrismacholtz.inventoryapp;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chrismacholtz.inventoryapp.data.ItemContract.ItemEntry;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String ADD_ITEM = "Add an Item";
@@ -30,31 +37,40 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView mCategoryTextView4;
     private int mCurrentCategory = 0;
 
+    //private int[] mQuantityArray;
+    //private int[] mEnrouteArray;
+    //private long[] mUpdateIds;
+
+    private ArrayList<Integer> mQuantityArray;
+    private ArrayList<Integer> mEnrouteArray;
+    private ArrayList<Long> mUpdateIds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
         mCursorAdapter = new ItemCursorAdapter(this, null);
-        mListView = (ListView) findViewById(R.id.list_view);
-        mEmptyView = (TextView) findViewById(R.id.empty_view);
+        mListView = (ListView) findViewById(R.id.list_view_main);
+        mEmptyView = (TextView) findViewById(R.id.empty_view_main);
         mListView.setEmptyView(mEmptyView);
 
-        mCategoryAll = (TextView) findViewById(R.id.menu_item0);
-        mCategoryTextView1 = (TextView) findViewById(R.id.menu_item1);
-        mCategoryTextView2 = (TextView) findViewById(R.id.menu_item2);
-        mCategoryTextView3 = (TextView) findViewById(R.id.menu_item3);
-        mCategoryTextView4 = (TextView) findViewById(R.id.menu_item4);
+        mCategoryAll = (TextView) findViewById(R.id.menu_item0_main);
+        mCategoryTextView1 = (TextView) findViewById(R.id.menu_item1_main);
+        mCategoryTextView2 = (TextView) findViewById(R.id.menu_item2_main);
+        mCategoryTextView3 = (TextView) findViewById(R.id.menu_item3_main);
+        mCategoryTextView4 = (TextView) findViewById(R.id.menu_item4_main);
 
-        //TODO: Set up menu logic
-        //TODO: Handle Category logic and listeners
+        mQuantityArray = new ArrayList<>();
+        mEnrouteArray = new ArrayList<>();
+        mUpdateIds = new ArrayList<>();
+
         mCategoryAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeCategory(0);
             }
         });
-
         mCategoryTextView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,11 +96,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        //TODO: Set up Floating Action Button search
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("Item ID", "" + id);
                 Uri currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.setData(currentItemUri);
@@ -92,7 +107,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        getLoaderManager().initLoader(mCurrentCategory, null, this);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sale_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SalesActivity.class);
+                startActivity(intent);
+            }
+        });
+        changeCategory(mCurrentCategory);
     }
 
     @Override
@@ -109,14 +132,40 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 intent.setData(null);
                 startActivity(intent);
                 return true;
+            case (R.id.action_shipment_arrival):
+                shipmentArrival();
+                return true;
             case (R.id.action_insert_dummy_data):
                 insertDummyData();
                 return true;
-            case (R.id.action_sort):
+            case (R.id.action_delete_all):
+                showDeleteConfirmationDialog();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shipmentArrival() {
+        ContentValues values = new ContentValues();
+        Uri currentItemUri;
+        for (int i = 0; i < mUpdateIds.size(); i++) {
+            Log.v("mUpdateId", "" + mUpdateIds.get(i));
+            int newQuantity = mQuantityArray.get(i) + mEnrouteArray.get(i);
+            Log.v("newQuantity", "" + newQuantity);
+
+            values.put(ItemEntry.COLUMN_ITEM_QUANTITY, newQuantity);
+            values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 0);
+            currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, mUpdateIds.get(i));
+            int rowUpdated = getContentResolver().update(currentItemUri, values, null, null);
+            if (rowUpdated != 0) {
+                Toast toast = Toast.makeText(this, "Shipment Arrival", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Toast toast = Toast.makeText(this, "Error updating quantities", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
     }
 
     private void insertDummyData() {
@@ -128,8 +177,48 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 2);
         values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 205.47f);
         values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 2);
+        getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        values.clear();
 
-        Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        values.put(ItemEntry.COLUMN_ITEM_NAME, "Metroid Federation Force");
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 24);
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, 39.99f);
+        values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 4);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 4);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 32.76f);
+        values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 1);
+        getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        values.clear();
+
+        values.put(ItemEntry.COLUMN_ITEM_NAME, "Pokemon Omega Ruby");
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 65);
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, 39.99f);
+        values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 10);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 3);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 32.76f);
+        values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 1);
+        getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        values.clear();
+
+        values.put(ItemEntry.COLUMN_ITEM_NAME, "Nintendo 3DS Carrying Case");
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 5);
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, 19.99f);
+        values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 10);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 6);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 32.76f);
+        values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 3);
+        getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        values.clear();
+
+        values.put(ItemEntry.COLUMN_ITEM_NAME, "Yo Kai Watch Backpack");
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 6);
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, 14.99f);
+        values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 2);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, 1);
+        values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, 4.76f);
+        values.put(ItemEntry.COLUMN_ITEM_CATEGORY, 4);
+        getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        values.clear();
     }
 
     private void changeCategory(int index) {
@@ -166,28 +255,69 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getLoaderManager().initLoader(mCurrentCategory, null, this);
     }
 
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_all_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteAll();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteAll() {
+        getContentResolver().delete(ItemEntry.CONTENT_URI, null, null);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {
                 ItemEntry._ID,
                 ItemEntry.COLUMN_ITEM_NAME,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
+                ItemEntry.COLUMN_ITEM_ENROUTE,
                 ItemEntry.COLUMN_ITEM_PRICE};
 
-        String selection;
-        String[] selectionArgs;
+        String selection = null;
+        String[] selectionArgs = null;
         if (mCurrentCategory != 0) {
             selection = ItemEntry.COLUMN_ITEM_CATEGORY + "=?";
             selectionArgs = new String[]{"" + mCurrentCategory};
-        } else {
-            selection = null;
-            selectionArgs = null;
         }
         return new ItemCursorLoader(this, ItemEntry.CONTENT_URI, projection, selection, selectionArgs, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        int quantityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
+        int enrouteColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ENROUTE);
+        int idColumnIndex = data.getColumnIndex(ItemEntry._ID);
+
+        while (data.moveToNext()) {
+            long id = data.getLong(idColumnIndex);
+            if (!mUpdateIds.contains(id)) {
+                mUpdateIds.add(id);
+                mQuantityArray.add(data.getInt(quantityColumnIndex));
+                mEnrouteArray.add(data.getInt(enrouteColumnIndex));
+            }
+        }
+
         mCursorAdapter = new ItemCursorAdapter(this, data);
         mListView.setAdapter(mCursorAdapter);
 

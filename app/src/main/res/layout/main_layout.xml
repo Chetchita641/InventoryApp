@@ -7,7 +7,7 @@
     tools:context="com.chrismacholtz.inventoryapp.MainActivity">
 
     <HorizontalScrollView
-        android:id="@+id/category_bar"
+        android:id="@+id/category_bar_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark">
@@ -15,38 +15,39 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:scrollbars="none">
 
             <TextView
-                android:id="@+id/menu_item0"
+                android:id="@+id/menu_item0_main"
                 style="@style/menuItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category_all" />
 
             <TextView
-                android:id="@+id/menu_item1"
+                android:id="@+id/menu_item1_main"
                 style="@style/menuItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category1" />
 
             <TextView
-                android:id="@+id/menu_item2"
+                android:id="@+id/menu_item2_main"
                 style="@style/menuItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category2" />
 
             <TextView
-                android:id="@+id/menu_item3"
+                android:id="@+id/menu_item3_main"
                 style="@style/menuItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category3" />
 
             <TextView
-                android:id="@+id/menu_item4"
+                android:id="@+id/menu_item4_main"
                 style="@style/menuItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,13 +56,15 @@
     </HorizontalScrollView>
 
     <ListView
-        android:id="@+id/list_view"
+        android:id="@+id/list_view_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/category_bar"></ListView>
+        android:layout_below="@id/category_bar_main">
+
+    </ListView>
 
     <TextView
-        android:id="@+id/empty_view"
+        android:id="@+id/empty_view_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -70,11 +73,12 @@
         android:textColor="@android:color/black" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sale_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_search_white_24dp" />
+        android:src="@drawable/ic_attach_money_white_24dp" />
 
 </RelativeLayout>
