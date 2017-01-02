@@ -22,12 +22,12 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + ItemEntry.COLUMN_ITEM_PRICE + " FLOAT NOT NULL, "
             + ItemEntry.COLUMN_ITEM_CATEGORY + " INTEGER NOT NULL DEFAULT 0, "
             + ItemEntry.COLUMN_ITEM_ENROUTE + " INTEGER NOT NULL DEFAULT 0, "
-            + ItemEntry.COLUMN_ITEM_PROVIDER_1 + " INTEGER, "
-            + ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE + " FLOAT, "
-            + ItemEntry.COLUMN_ITEM_PROVIDER_2 + " INTEGER, "
-            + ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE + " FLOAT, "
-            + ItemEntry.COLUMN_ITEM_PROVIDER_3 + " INTEGER, "
-            + ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE + " FLOAT);";
+            + ItemEntry.COLUMN_ITEM_SUPPLIER_1 + " INTEGER, "
+            + ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE + " FLOAT, "
+            + ItemEntry.COLUMN_ITEM_SUPPLIER_2 + " INTEGER, "
+            + ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE + " FLOAT, "
+            + ItemEntry.COLUMN_ITEM_SUPPLIER_3 + " INTEGER, "
+            + ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE + " FLOAT);";
 
     public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + ItemEntry.TABLE_NAME;
 

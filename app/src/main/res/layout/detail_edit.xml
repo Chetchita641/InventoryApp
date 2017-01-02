@@ -28,7 +28,7 @@
                         android:id="@+id/product_name_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Product Name"
+                        android:hint="@string/product_name"
                         android:paddingLeft="8dp" />
                 </LinearLayout>
 
@@ -53,7 +53,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
-                        android:text="Sale Price:  $" />
+                        android:text="@string/sale_price" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -99,7 +99,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:paddingLeft="8dp"
-                    android:text="Qty:" />
+                    android:text="@string/qty" />
 
                 <EditText
                     android:id="@+id/quantity_edit"
@@ -120,7 +120,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:paddingLeft="8dp"
-                    android:text="Enroute:" />
+                    android:text="@string/enroute" />
 
                 <EditText
                     android:id="@+id/enroute_edit"
@@ -138,7 +138,7 @@
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingTop="32dp"
-            android:text="Suppliers" />
+            android:text="@string/suppliers" />
 
         <LinearLayout
             android:id="@+id/provider_edit_layout1"
@@ -146,7 +146,7 @@
             android:layout_height="wrap_content">
 
             <Spinner
-                android:id="@+id/provider_spinner1"
+                android:id="@+id/supplier_spinner1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -159,11 +159,11 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/provider_edit_price1"
+                    android:id="@+id/supplier_edit_price1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Price"
+                    android:hint="@string/price"
                     android:inputType="numberDecimal" />
             </LinearLayout>
         </LinearLayout>
@@ -174,7 +174,7 @@
             android:layout_height="wrap_content">
 
             <Spinner
-                android:id="@+id/provider_spinner2"
+                android:id="@+id/supplier_spinner2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -187,11 +187,11 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/provider_edit_price2"
+                    android:id="@+id/supplier_edit_price2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Price"
+                    android:hint="@string/price"
                     android:inputType="numberDecimal" />
             </LinearLayout>
         </LinearLayout>
@@ -202,7 +202,7 @@
             android:layout_height="wrap_content">
 
             <Spinner
-                android:id="@+id/provider_spinner3"
+                android:id="@+id/supplier_spinner3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -215,11 +215,11 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/provider_edit_price3"
+                    android:id="@+id/supplier_edit_price3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Price"
+                    android:hint="@string/price"
                     android:inputType="numberDecimal" />
             </LinearLayout>
         </LinearLayout>

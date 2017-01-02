@@ -26,7 +26,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -51,18 +50,15 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
     private EditText mEnrouteEditText;
-    private LinearLayout mProviderLayout1;
-    private LinearLayout mProviderLayout2;
-    private LinearLayout mProviderLayout3;
-    private Spinner mProviderSpinner1;
-    private Spinner mProviderSpinner2;
-    private Spinner mProviderSpinner3;
-    private int mProvider1 = 0;
-    private int mProvider2 = 0;
-    private int mProvider3 = 0;
-    private EditText mProviderPriceEditText1;
-    private EditText mProviderPriceEditText2;
-    private EditText mProviderPriceEditText3;
+    private Spinner mSupplierSpinner1;
+    private Spinner mSupplierSpinner2;
+    private Spinner mSupplierSpinner3;
+    private int mSupplier1 = 0;
+    private int mSupplier2 = 0;
+    private int mSupplier3 = 0;
+    private EditText mSupplierPriceEditText1;
+    private EditText mSupplierPriceEditText2;
+    private EditText mSupplierPriceEditText3;
     private ImageView mImageView;
     private Uri mImageUri;
     private Uri mCurrentItemUri;
@@ -87,23 +83,23 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
         mQuantityEditText = (EditText) findViewById(R.id.quantity_edit);
         mEnrouteEditText = (EditText) findViewById(R.id.enroute_edit);
 
-        mProviderSpinner1 = (Spinner) findViewById(R.id.provider_spinner1);
-        mProviderSpinner2 = (Spinner) findViewById(R.id.provider_spinner2);
-        mProviderSpinner3 = (Spinner) findViewById(R.id.provider_spinner3);
-        mProviderPriceEditText1 = (EditText) findViewById(R.id.provider_edit_price1);
-        mProviderPriceEditText2 = (EditText) findViewById(R.id.provider_edit_price2);
-        mProviderPriceEditText3 = (EditText) findViewById(R.id.provider_edit_price3);
+        mSupplierSpinner1 = (Spinner) findViewById(R.id.supplier_spinner1);
+        mSupplierSpinner2 = (Spinner) findViewById(R.id.supplier_spinner2);
+        mSupplierSpinner3 = (Spinner) findViewById(R.id.supplier_spinner3);
+        mSupplierPriceEditText1 = (EditText) findViewById(R.id.supplier_edit_price1);
+        mSupplierPriceEditText2 = (EditText) findViewById(R.id.supplier_edit_price2);
+        mSupplierPriceEditText3 = (EditText) findViewById(R.id.supplier_edit_price3);
 
         mProductNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mEnrouteEditText.setOnTouchListener(mTouchListener);
-        mProviderSpinner1.setOnTouchListener(mTouchListener);
-        mProviderSpinner2.setOnTouchListener(mTouchListener);
-        mProviderSpinner3.setOnTouchListener(mTouchListener);
-        mProviderPriceEditText1.setOnTouchListener(mTouchListener);
-        mProviderPriceEditText2.setOnTouchListener(mTouchListener);
-        mProviderPriceEditText3.setOnTouchListener(mTouchListener);
+        mSupplierSpinner1.setOnTouchListener(mTouchListener);
+        mSupplierSpinner2.setOnTouchListener(mTouchListener);
+        mSupplierSpinner3.setOnTouchListener(mTouchListener);
+        mSupplierPriceEditText1.setOnTouchListener(mTouchListener);
+        mSupplierPriceEditText2.setOnTouchListener(mTouchListener);
+        mSupplierPriceEditText3.setOnTouchListener(mTouchListener);
 
         mCurrentItemUri = getIntent().getData();
         if (mCurrentItemUri == null) {
@@ -232,22 +228,22 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
     }
 
     private void setupSpinner() {
-        ArrayAdapter providerSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.array_suppliers, android.R.layout.simple_spinner_item);
-        providerSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        mProviderSpinner1.setAdapter(providerSpinnerAdapter);
-        mProviderSpinner2.setAdapter(providerSpinnerAdapter);
-        mProviderSpinner3.setAdapter(providerSpinnerAdapter);
+        ArrayAdapter supplierSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.array_suppliers, android.R.layout.simple_spinner_item);
+        supplierSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        mSupplierSpinner1.setAdapter(supplierSpinnerAdapter);
+        mSupplierSpinner2.setAdapter(supplierSpinnerAdapter);
+        mSupplierSpinner3.setAdapter(supplierSpinnerAdapter);
 
         ArrayAdapter categorySpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.array_categories, android.R.layout.simple_spinner_item);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         mCategorySpinner.setAdapter(categorySpinnerAdapter);
 
-        mProviderSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSupplierSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    mProvider1 = getProviderInt(selection);
+                    mSupplier1 = getSupplierInt(selection);
                 }
             }
 
@@ -256,12 +252,12 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
                 //Is there supposed to be something here?
             }
         });
-        mProviderSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSupplierSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    mProvider2 = getProviderInt(selection);
+                    mSupplier2 = getSupplierInt(selection);
                 }
             }
 
@@ -270,12 +266,12 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
                 //Is there supposed to be something here?
             }
         });
-        mProviderSpinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSupplierSpinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    mProvider3 = getProviderInt(selection);
+                    mSupplier3 = getSupplierInt(selection);
                 }
             }
 
@@ -307,9 +303,9 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String enrouteString = mEnrouteEditText.getText().toString().trim();
-        String providerPriceString1 = mProviderPriceEditText1.getText().toString().trim();
-        String providerPriceString2 = mProviderPriceEditText2.getText().toString().trim();
-        String providerPriceString3 = mProviderPriceEditText3.getText().toString().trim();
+        String supplierPriceString1 = mSupplierPriceEditText1.getText().toString().trim();
+        String supplierPriceString2 = mSupplierPriceEditText2.getText().toString().trim();
+        String supplierPriceString3 = mSupplierPriceEditText3.getText().toString().trim();
 
         if (productName.isEmpty()) {
             Toast toast = Toast.makeText(this, "Product Name Required", Toast.LENGTH_SHORT);
@@ -334,47 +330,47 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
 
         ContentValues values = new ContentValues();
 
-        float providerPrice1 = 0;
-        float providerPrice2 = 0;
-        float providerPrice3 = 0;
+        float supplierPrice1 = 0;
+        float supplierPrice2 = 0;
+        float supplierPrice3 = 0;
 
-        if (!mProviderPriceEditText1.getText().toString().isEmpty())
-            providerPrice1 = Float.parseFloat(providerPriceString1);
+        if (!mSupplierPriceEditText1.getText().toString().isEmpty())
+            supplierPrice1 = Float.parseFloat(supplierPriceString1);
 
-        if (!mProviderPriceEditText2.getText().toString().isEmpty())
-            providerPrice2 = Float.parseFloat(providerPriceString2);
+        if (!mSupplierPriceEditText2.getText().toString().isEmpty())
+            supplierPrice2 = Float.parseFloat(supplierPriceString2);
 
-        if (!mProviderPriceEditText3.getText().toString().isEmpty())
-            providerPrice3 = Float.parseFloat(providerPriceString3);
+        if (!mSupplierPriceEditText3.getText().toString().isEmpty())
+            supplierPrice3 = Float.parseFloat(supplierPriceString3);
 
-        if (mProvider1 > 0 && providerPrice1 > 0f) {
-            if (mProvider1 > 0 ^ providerPrice1 > 0f) {
-                Toast toast = Toast.makeText(this, "Error saving Provider #1", Toast.LENGTH_SHORT);
+        if (mSupplier1 > 0 && supplierPrice1 > 0f) {
+            if (mSupplier1 > 0 ^ supplierPrice1 > 0f) {
+                Toast toast = Toast.makeText(this, getString(R.string.saving_supplier_error) + 1, Toast.LENGTH_SHORT);
                 toast.show();
                 return;
             } else {
-                values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1, mProvider1);
-                values.put(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE, providerPrice1);
+                values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1, mSupplier1);
+                values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE, supplierPrice1);
             }
         }
-        if (mProvider2 > 0 && providerPrice2 > 0f) {
-            if (mProvider2 > 0 ^ providerPrice2 > 0f) {
-                Toast toast = Toast.makeText(this, "Error saving Provider #2", Toast.LENGTH_SHORT);
+        if (mSupplier2 > 0 && supplierPrice2 > 0f) {
+            if (mSupplier2 > 0 ^ supplierPrice2 > 0f) {
+                Toast toast = Toast.makeText(this, getString(R.string.saving_supplier_error) + 2, Toast.LENGTH_SHORT);
                 toast.show();
                 return;
             } else {
-                values.put(ItemEntry.COLUMN_ITEM_PROVIDER_2, mProvider2);
-                values.put(ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE, providerPrice2);
+                values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_2, mSupplier2);
+                values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE, supplierPrice2);
             }
         }
-        if (mProvider3 > 0 && providerPrice3 > 0f) {
-            if (mProvider3 > 0 ^ providerPrice3 > 0f) {
-                Toast toast = Toast.makeText(this, "Error saving Provider price", Toast.LENGTH_SHORT);
+        if (mSupplier3 > 0 && supplierPrice3 > 0f) {
+            if (mSupplier3 > 0 ^ supplierPrice3 > 0f) {
+                Toast toast = Toast.makeText(this, getString(R.string.saving_supplier_error) + 3, Toast.LENGTH_SHORT);
                 toast.show();
                 return;
             } else {
-                values.put(ItemEntry.COLUMN_ITEM_PROVIDER_3, mProvider3);
-                values.put(ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE, providerPrice3);
+                values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_3, mSupplier3);
+                values.put(ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE, supplierPrice3);
             }
         }
 
@@ -409,7 +405,7 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
         }
     }
 
-    private int getProviderInt(String selection) {
+    private int getSupplierInt(String selection) {
         if (selection.equals(getString(R.string.supplier1))) {
             return 1;
         } else if (selection.equals(getString(R.string.supplier2))) {
@@ -534,12 +530,12 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
                 ItemEntry.COLUMN_ITEM_PRICE,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
                 ItemEntry.COLUMN_ITEM_ENROUTE,
-                ItemEntry.COLUMN_ITEM_PROVIDER_1,
-                ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE,
-                ItemEntry.COLUMN_ITEM_PROVIDER_2,
-                ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE,
-                ItemEntry.COLUMN_ITEM_PROVIDER_3,
-                ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE
+                ItemEntry.COLUMN_ITEM_SUPPLIER_1,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_2,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_3,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE
         };
 
         return new ItemCursorLoader(this, mCurrentItemUri, projection, null, null, null);
@@ -554,12 +550,12 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
             int priceColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
             int quantityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
             int enrouteColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ENROUTE);
-            int providerName1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_1);
-            int providerName2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_2);
-            int providerName3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_3);
-            int providerPrice1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE);
-            int providerPrice2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE);
-            int providerPrice3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE);
+            int supplierName1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_1);
+            int supplierName2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_2);
+            int supplierName3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_3);
+            int supplierPrice1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE);
+            int supplierPrice2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE);
+            int supplierPrice3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE);
 
             mProductNameEditText.setText(data.getString(productNameColumnIndex));
             mPriceEditText.setText(data.getString(priceColumnIndex));
@@ -567,17 +563,17 @@ public class EditItemActivity extends AppCompatActivity implements LoaderManager
             mEnrouteEditText.setText(data.getString(enrouteColumnIndex));
             mCategorySpinner.setSelection(data.getInt(categoryColumnIndex));
 
-            if (data.getInt(providerName1ColumnIndex) != 0) {
-                mProviderSpinner1.setSelection(data.getInt(providerName1ColumnIndex));
-                mProviderPriceEditText1.setText(data.getString(providerPrice1ColumnIndex));
+            if (data.getInt(supplierName1ColumnIndex) != 0) {
+                mSupplierSpinner1.setSelection(data.getInt(supplierName1ColumnIndex));
+                mSupplierPriceEditText1.setText(data.getString(supplierPrice1ColumnIndex));
             }
-            if (data.getInt(providerName2ColumnIndex) != 0) {
-                mProviderSpinner2.setSelection(data.getInt(providerName2ColumnIndex));
-                mProviderPriceEditText2.setText(data.getString(providerPrice2ColumnIndex));
+            if (data.getInt(supplierName2ColumnIndex) != 0) {
+                mSupplierSpinner2.setSelection(data.getInt(supplierName2ColumnIndex));
+                mSupplierPriceEditText2.setText(data.getString(supplierPrice2ColumnIndex));
             }
-            if (data.getInt(providerName3ColumnIndex) != 0) {
-                mProviderSpinner3.setSelection(data.getInt(providerName3ColumnIndex));
-                mProviderPriceEditText3.setText(data.getString(providerPrice3ColumnIndex));
+            if (data.getInt(supplierName3ColumnIndex) != 0) {
+                mSupplierSpinner3.setSelection(data.getInt(supplierName3ColumnIndex));
+                mSupplierPriceEditText3.setText(data.getString(supplierPrice3ColumnIndex));
             }
 
             if (data.getString(productImageUriColumnIndex) != null) {

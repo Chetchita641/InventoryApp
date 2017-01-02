@@ -35,38 +35,37 @@ import java.io.InputStream;
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
     private static final int LOADER_ID = 5;
-    private static final String EDIT_ITEM = "Edit Item";
     private TextView mProductNameTextView;
     private ImageView mImageView;
     private TextView mCategoryTextView;
     private TextView mPriceTextView;
     private TextView mQuantityTextView;
     private TextView mEnrouteTextView;
-    private LinearLayout mProviderLayout1;
-    private LinearLayout mProviderLayout2;
-    private LinearLayout mProviderLayout3;
-    private TextView mProviderNameTextView1;
-    private TextView mProviderNameTextView2;
-    private TextView mProviderNameTextView3;
-    private TextView mProviderPriceTextView1;
-    private TextView mProviderPriceTextView2;
-    private TextView mProviderPriceTextView3;
+    private LinearLayout mSupplierLayout1;
+    private LinearLayout mSupplierLayout2;
+    private LinearLayout mSupplierLayout3;
+    private TextView mSupplierNameTextView1;
+    private TextView mSupplierNameTextView2;
+    private TextView mSupplierNameTextView3;
+    private TextView mSupplierPriceTextView1;
+    private TextView mSupplierPriceTextView2;
+    private TextView mSupplierPriceTextView3;
 
-    private Button mProviderMinus1;
-    private Button mProviderMinus2;
-    private Button mProviderMinus3;
-    private Button mProviderPlus1;
-    private Button mProviderPlus2;
-    private Button mProviderPlus3;
+    private Button mSupplierMinus1;
+    private Button mSupplierMinus2;
+    private Button mSupplierMinus3;
+    private Button mSupplierPlus1;
+    private Button mSupplierPlus2;
+    private Button mSupplierPlus3;
     private TextView mNumOrderTextView1;
     private TextView mNumOrderTextView2;
     private TextView mNumOrderTextView3;
     private int mNumOrder1 = 1;
     private int mNumOrder2 = 1;
     private int mNumOrder3 = 1;
-    private float fProviderPrice1 = 0;
-    private float fProviderPrice2 = 0;
-    private float fProviderPrice3 = 0;
+    private float fSupplierPrice1 = 0;
+    private float fSupplierPrice2 = 0;
+    private float fSupplierPrice3 = 0;
     private int mEnroute;
 
     private Uri mCurrentItemUri;
@@ -83,89 +82,85 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityTextView = (TextView) findViewById(R.id.quantity_detail);
         mEnrouteTextView = (TextView) findViewById(R.id.enroute_detail);
 
-        mProviderLayout1 = (LinearLayout) findViewById(R.id.provider_layout1);
-        mProviderLayout2 = (LinearLayout) findViewById(R.id.provider_layout2);
-        mProviderLayout3 = (LinearLayout) findViewById(R.id.provider_layout3);
-        mProviderNameTextView1 = (TextView) findViewById(R.id.provider_name1);
-        mProviderNameTextView2 = (TextView) findViewById(R.id.provider_name2);
-        mProviderNameTextView3 = (TextView) findViewById(R.id.provider_name3);
-        mProviderPriceTextView1 = (TextView) findViewById(R.id.provider_price1);
-        mProviderPriceTextView2 = (TextView) findViewById(R.id.provider_price2);
-        mProviderPriceTextView3 = (TextView) findViewById(R.id.provider_price3);
+        mSupplierLayout1 = (LinearLayout) findViewById(R.id.supplier_layout1);
+        mSupplierLayout2 = (LinearLayout) findViewById(R.id.supplier_layout2);
+        mSupplierLayout3 = (LinearLayout) findViewById(R.id.supplier_layout3);
+        mSupplierNameTextView1 = (TextView) findViewById(R.id.supplier_name1);
+        mSupplierNameTextView2 = (TextView) findViewById(R.id.supplier_name2);
+        mSupplierNameTextView3 = (TextView) findViewById(R.id.supplier_name3);
+        mSupplierPriceTextView1 = (TextView) findViewById(R.id.supplier_price1);
+        mSupplierPriceTextView2 = (TextView) findViewById(R.id.supplier_price2);
+        mSupplierPriceTextView3 = (TextView) findViewById(R.id.supplier_price3);
 
         mCurrentItemUri = getIntent().getData();
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
-        mProviderMinus1 = (Button) findViewById(R.id.provider_minus1);
-        mProviderMinus2 = (Button) findViewById(R.id.provider_minus2);
-        mProviderMinus3 = (Button) findViewById(R.id.provider_minus3);
-        mProviderPlus1 = (Button) findViewById(R.id.provider_plus1);
-        mProviderPlus2 = (Button) findViewById(R.id.provider_plus2);
-        mProviderPlus3 = (Button) findViewById(R.id.provider_plus3);
-
+        //Individual clickListeners for the plus and minus buttons for the ordering. In reality, there are probably only a large variety of single suppliers.
+        mSupplierMinus1 = (Button) findViewById(R.id.supplier_minus1);
+        mSupplierMinus2 = (Button) findViewById(R.id.supplier_minus2);
+        mSupplierMinus3 = (Button) findViewById(R.id.supplier_minus3);
+        mSupplierPlus1 = (Button) findViewById(R.id.supplier_plus1);
+        mSupplierPlus2 = (Button) findViewById(R.id.supplier_plus2);
+        mSupplierPlus3 = (Button) findViewById(R.id.supplier_plus3);
         mNumOrderTextView1 = (TextView) findViewById(R.id.num_order1);
         mNumOrderTextView2 = (TextView) findViewById(R.id.num_order2);
         mNumOrderTextView3 = (TextView) findViewById(R.id.num_order3);
 
-        mProviderMinus1.setOnClickListener(new View.OnClickListener() {
+        mSupplierMinus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decrement(1);
             }
         });
-        mProviderMinus2.setOnClickListener(new View.OnClickListener() {
+        mSupplierMinus2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decrement(2);
             }
         });
-        mProviderMinus3.setOnClickListener(new View.OnClickListener() {
+        mSupplierMinus3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decrement(3);
             }
         });
-
-        mProviderPlus1.setOnClickListener(new View.OnClickListener() {
+        mSupplierPlus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 increment(1);
             }
         });
-        mProviderPlus2.setOnClickListener(new View.OnClickListener() {
+        mSupplierPlus2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 increment(2);
             }
         });
-        mProviderPlus3.setOnClickListener(new View.OnClickListener() {
+        mSupplierPlus3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 increment(3);
             }
         });
 
-        Button providerButton1 = (Button) findViewById(R.id.provider_order1);
-        Button providerButton2 = (Button) findViewById(R.id.provider_order2);
-        Button providerButton3 = (Button) findViewById(R.id.provider_order3);
-
-        providerButton1.setOnClickListener(new View.OnClickListener() {
+        Button supplierButton1 = (Button) findViewById(R.id.supplier_order1);
+        Button supplierButton2 = (Button) findViewById(R.id.supplier_order2);
+        Button supplierButton3 = (Button) findViewById(R.id.supplier_order3);
+        supplierButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendEmailOrder(1);
 
             }
         });
-
-        providerButton2.setOnClickListener(new View.OnClickListener() {
+        supplierButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendEmailOrder(2);
             }
         });
-
-        providerButton3.setOnClickListener(new View.OnClickListener() {
+        supplierButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendEmailOrder(3);
@@ -180,6 +175,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         return true;
     }
 
+    /**
+     * Edit Item: Edit the details
+     * Delete: Delete the item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
@@ -200,6 +199,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
+    //Copied from Udacity's Pets project
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
@@ -226,14 +226,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
+    //Copied from Udacity's Pets project
     private void deleteItem() {
         if (mCurrentItemUri != null) {
             int rowDeleted = getContentResolver().delete(mCurrentItemUri, null, null);
             if (rowDeleted != 0) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Item Deleted", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.delete_item_sucess), Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Error in deleting Item", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.delete_item_error), Toast.LENGTH_SHORT);
                 toast.show();
             }
         } else {
@@ -242,7 +243,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         finish();
     }
 
-    private String getProviderName(int index) {
+    //Convert an integer to a matching supplier name
+    private String getSupplierName(int index) {
         switch (index) {
             case (1):
                 return getString(R.string.supplier1);
@@ -257,10 +259,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             case (6):
                 return getString(R.string.supplier6);
             default:
-                return "Unknown";
+                return getString(R.string.unknown_supplier);
         }
     }
 
+    //Convert an integer to a matching category name for the spinner
     private String getCategoryName(int index) {
         switch (index) {
             case (1):
@@ -276,6 +279,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
+    /**Borrowed and slightly modified from Carlos Andres Jimenez's MyShareImageExample, obtained through the Udacity forums.
+     * There's was a bug in which if the user switched too fast, the input streams wouldn't properly close. However, in this state, there may be memory leaks.
+     * Hopefully, nothing too big. If your phone blows up from an excessive amount of bitmap data, my bad.
+     **/
     public Bitmap getBitmapFromUri(Uri uri) {
         if (uri == null || uri.toString().isEmpty())
             return null;
@@ -326,6 +333,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 //        }
     }
 
+    //Separate method to lower the desired order and update the textView. Also includes checks against negative numbers and zero.
     private void decrement(int index) {
         switch (index) {
             case (1):
@@ -334,7 +342,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mNumOrder1 = 1;
                 }
                 mNumOrderTextView1.setText("" + mNumOrder1);
-                mProviderPriceTextView1.setText("$" + String.format("%.2f", (mNumOrder1 * fProviderPrice1)));
+                mSupplierPriceTextView1.setText("$" + String.format("%.2f", (mNumOrder1 * fSupplierPrice1)));
                 break;
             case (2):
                 mNumOrder2--;
@@ -342,7 +350,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mNumOrder2 = 1;
                 }
                 mNumOrderTextView2.setText("" + mNumOrder2);
-                mProviderPriceTextView2.setText("$" + String.format("%.2f", (mNumOrder2 * fProviderPrice2)));
+                mSupplierPriceTextView2.setText("$" + String.format("%.2f", (mNumOrder2 * fSupplierPrice2)));
                 break;
             case (3):
                 mNumOrder3--;
@@ -350,10 +358,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mNumOrder3 = 1;
                 }
                 mNumOrderTextView3.setText("" + mNumOrder3);
-                mProviderPriceTextView3.setText("$" + String.format("%.2f", (mNumOrder3 * fProviderPrice3)));
+                mSupplierPriceTextView3.setText("$" + String.format("%.2f", (mNumOrder3 * fSupplierPrice3)));
         }
     }
 
+    //Separate method to increase the desired order and update the textView. Also includes checks against higher than 2-digit numbers.
     private void increment(int index) {
         switch (index) {
             case (1):
@@ -362,7 +371,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mNumOrder1 = 99;
                 }
                 mNumOrderTextView1.setText("" + mNumOrder1);
-                mProviderPriceTextView1.setText("$" + String.format("%.2f", (mNumOrder1 * fProviderPrice1)));
+                mSupplierPriceTextView1.setText("$" + String.format("%.2f", (mNumOrder1 * fSupplierPrice1)));
                 break;
             case (2):
                 mNumOrder2++;
@@ -370,7 +379,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mNumOrder2 = 99;
                 }
                 mNumOrderTextView2.setText("" + mNumOrder2);
-                mProviderPriceTextView2.setText("$" + String.format("%.2f", (mNumOrder2 * fProviderPrice2)));
+                mSupplierPriceTextView2.setText("$" + String.format("%.2f", (mNumOrder2 * fSupplierPrice2)));
                 break;
             case (3):
                 mNumOrder3++;
@@ -378,42 +387,44 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mNumOrder3 = 99;
                 }
                 mNumOrderTextView3.setText("" + mNumOrder3);
-                mProviderPriceTextView3.setText("$" + String.format("%.2f", (mNumOrder3 * fProviderPrice3)));
+                mSupplierPriceTextView3.setText("$" + String.format("%.2f", (mNumOrder3 * fSupplierPrice3)));
         }
     }
 
+    //Pulls out the information and fills it all into an email via an implicit intent
     private void sendEmailOrder(int index) {
         String productName = mProductNameTextView.getText().toString();
-        String providerName = "";
+        String supplierName = "";
         int quantity = 0;
-        float providerPrice = 0;
+        float supplierPrice = 0;
         switch (index) {
             case (1):
-                providerName = mProviderNameTextView1.getText().toString();
+                supplierName = mSupplierNameTextView1.getText().toString();
                 quantity = mNumOrder1;
-                providerPrice = fProviderPrice1;
+                supplierPrice = fSupplierPrice1;
                 break;
             case (2):
-                providerName = mProviderNameTextView2.getText().toString();
+                supplierName = mSupplierNameTextView2.getText().toString();
                 quantity = mNumOrder2;
-                providerPrice = fProviderPrice2;
+                supplierPrice = fSupplierPrice2;
                 break;
             case (3):
-                providerName = mProviderNameTextView3.getText().toString();
+                supplierName = mSupplierNameTextView3.getText().toString();
                 quantity = mNumOrder3;
-                providerPrice = fProviderPrice3;
+                supplierPrice = fSupplierPrice3;
                 break;
         }
 
         addEnroute(quantity);
 
-        String totalPriceString = "$" + String.format("%.2f", (providerPrice * quantity));
+        String totalPriceString = "$" + String.format("%.2f", (supplierPrice * quantity));
+        //Sample output: Please order 5 more of Pokemon Y from LexCorp, at a cost of $60.45. Thank you
         String orderSummary = "Please order " + quantity + " more of " + productName
-                + " from " + providerName + ", at a cost of " + totalPriceString + "\nThank you";
+                + " from " + supplierName + ", at a cost of " + totalPriceString + "\nThank you";
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.order_summary_email_subject) + providerName);
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.order_summary_email_subject) + supplierName);
         intent.putExtra(Intent.EXTRA_TEXT, orderSummary);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
@@ -428,13 +439,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         int rowUpdated = getContentResolver().update(mCurrentItemUri, values, null, null);
         if (rowUpdated != 0) {
-            Toast toast = Toast.makeText(this, "Enroute updated", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getString(R.string.enroute_update_success), Toast.LENGTH_SHORT);
             toast.show();
         } else {
-            Toast toast = Toast.makeText(this, "Error updating Enroute", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getString(R.string.enroute_update_error), Toast.LENGTH_SHORT);
             toast.show();
         }
-        mEnrouteTextView.setText("Enroute:  " + mEnroute);
+        mEnrouteTextView.setText(getString(R.string.enroute) + " " + mEnroute);
     }
 
     @Override
@@ -447,12 +458,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 ItemEntry.COLUMN_ITEM_PRICE,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
                 ItemEntry.COLUMN_ITEM_ENROUTE,
-                ItemEntry.COLUMN_ITEM_PROVIDER_1,
-                ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE,
-                ItemEntry.COLUMN_ITEM_PROVIDER_2,
-                ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE,
-                ItemEntry.COLUMN_ITEM_PROVIDER_3,
-                ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE
+                ItemEntry.COLUMN_ITEM_SUPPLIER_1,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_2,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_3,
+                ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE
         };
 
         return new ItemCursorLoader(this, mCurrentItemUri, projection, null, null, null);
@@ -467,20 +478,20 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             int priceColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
             int quantityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
             int enrouteColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ENROUTE);
-            int providerName1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_1);
-            int providerName2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_2);
-            int providerName3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_3);
-            int providerPrice1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_1_PRICE);
-            int providerPrice2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_2_PRICE);
-            int providerPrice3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_PROVIDER_3_PRICE);
+            int supplierName1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_1);
+            int supplierName2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_2);
+            int supplierName3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_3);
+            int supplierPrice1ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_1_PRICE);
+            int supplierPrice2ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_2_PRICE);
+            int supplierPrice3ColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER_3_PRICE);
 
             String productName = data.getString(productNameColumnIndex);
             int categoryInt = data.getInt(categoryColumnIndex);
             float fProductPrice = data.getFloat(priceColumnIndex);
-            String priceString = "Sale Price: $" + String.format("%.2f", fProductPrice);
-            String quantityString = "Qty:  " + data.getInt(quantityColumnIndex);
+            String priceString = getString(R.string.sale_price) + String.format("%.2f", fProductPrice);
+            String quantityString = getString(R.string.qty) + "  " + data.getInt(quantityColumnIndex);
             mEnroute = data.getInt(enrouteColumnIndex);
-            String enrouteString = "Enroute:  " + mEnroute;
+            String enrouteString = getString(R.string.enroute) + " " + mEnroute;
 
             Uri productImageUri = null;
             if (data.getString(productImageColumnIndex) != null) {
@@ -494,34 +505,35 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             mQuantityTextView.setText(quantityString);
             mEnrouteTextView.setText(enrouteString);
 
-            if (data.getString(providerName1ColumnIndex) != null) {
-                String providerName1 = getProviderName(data.getInt(providerName1ColumnIndex));
-                fProviderPrice1 = data.getFloat(providerPrice1ColumnIndex);
-                String providerPriceString1 = "$" + String.format("%.2f", fProviderPrice1);
-                mProviderNameTextView1.setText(providerName1);
-                mProviderPriceTextView1.setText(providerPriceString1);
+            //If a supplier is not provided, then don't display
+            if (data.getString(supplierName1ColumnIndex) != null) {
+                String supplierName1 = getSupplierName(data.getInt(supplierName1ColumnIndex));
+                fSupplierPrice1 = data.getFloat(supplierPrice1ColumnIndex);
+                String supplierPriceString1 = "$" + String.format("%.2f", fSupplierPrice1);
+                mSupplierNameTextView1.setText(supplierName1);
+                mSupplierPriceTextView1.setText(supplierPriceString1);
             } else {
-                mProviderLayout1.setVisibility(View.GONE);
+                mSupplierLayout1.setVisibility(View.GONE);
             }
 
-            if (data.getString(providerName2ColumnIndex) != null) {
-                String providerName2 = getProviderName(data.getInt(providerName2ColumnIndex));
-                fProviderPrice2 = data.getFloat(providerPrice2ColumnIndex);
-                String providerPriceString2 = "$" + String.format("%.2f", fProviderPrice2);
-                mProviderNameTextView2.setText(providerName2);
-                mProviderPriceTextView2.setText(providerPriceString2);
+            if (data.getString(supplierName2ColumnIndex) != null) {
+                String supplierName2 = getSupplierName(data.getInt(supplierName2ColumnIndex));
+                fSupplierPrice2 = data.getFloat(supplierPrice2ColumnIndex);
+                String supplierPriceString2 = "$" + String.format("%.2f", fSupplierPrice2);
+                mSupplierNameTextView2.setText(supplierName2);
+                mSupplierPriceTextView2.setText(supplierPriceString2);
             } else {
-                mProviderLayout2.setVisibility(View.GONE);
+                mSupplierLayout2.setVisibility(View.GONE);
             }
 
-            if (data.getString(providerName3ColumnIndex) != null) {
-                String providerName3 = getProviderName(data.getInt(providerName3ColumnIndex));
-                fProviderPrice3 = data.getFloat(providerPrice3ColumnIndex);
-                String providerPriceString3 = "$" + String.format("%.2f", fProviderPrice3);
-                mProviderNameTextView3.setText(providerName3);
-                mProviderPriceTextView3.setText(providerPriceString3);
+            if (data.getString(supplierName3ColumnIndex) != null) {
+                String supplierName3 = getSupplierName(data.getInt(supplierName3ColumnIndex));
+                fSupplierPrice3 = data.getFloat(supplierPrice3ColumnIndex);
+                String supplierPriceString3 = "$" + String.format("%.2f", fSupplierPrice3);
+                mSupplierNameTextView3.setText(supplierName3);
+                mSupplierPriceTextView3.setText(supplierPriceString3);
             } else {
-                mProviderLayout3.setVisibility(View.GONE);
+                mSupplierLayout3.setVisibility(View.GONE);
             }
         }
     }

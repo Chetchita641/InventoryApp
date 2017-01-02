@@ -41,7 +41,7 @@
                         android:paddingBottom="8dp"
                         android:paddingLeft="16dp"
                         android:paddingTop="2dp"
-                        android:text="Consoles" />
+                        android:text="@string/category2" />
 
                 </LinearLayout>
 
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:paddingLeft="8dp"
-                        android:text="Qty:  8" />
+                        tools:text="Qty:  8" />
 
                     <TextView
                         android:id="@+id/enroute_detail"
@@ -84,7 +84,7 @@
                         android:layout_weight="3"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
-                        android:text="Enroute:  10" />
+                        tools:text="Enroute:  10" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -108,20 +108,20 @@
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingTop="32dp"
-            android:text="Suppliers" />
+            android:text="@string/suppliers" />
 
         <LinearLayout
-            android:id="@+id/provider_layout1"
+            android:id="@+id/supplier_layout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/provider_name1"
+                android:id="@+id/supplier_name1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="16dp"
-                tools:text="Nintendo" />
+                tools:text="@string/supplier3" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -135,7 +135,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/provider_minus1"
+                        android:id="@+id/supplier_minus1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -150,7 +150,7 @@
                         android:text="1" />
 
                     <Button
-                        android:id="@+id/provider_plus1"
+                        android:id="@+id/supplier_plus1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -158,37 +158,37 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/provider_price1"
+                    android:id="@+id/supplier_price1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:gravity="center_horizontal"
-                    tools:text="$209.45 / per unit" />
+                    tools:text="$209.45" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/provider_order1"
+                android:id="@+id/supplier_order1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="Order" />
+                android:text="@string/order" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/provider_layout2"
+            android:id="@+id/supplier_layout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp">
 
             <TextView
-                android:id="@+id/provider_name2"
+                android:id="@+id/supplier_name2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="16dp"
-                tools:text="Games R Us (also other things too)" />
+                tools:text="@string/supplier5" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -202,7 +202,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/provider_minus2"
+                        android:id="@+id/supplier_minus2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -217,7 +217,7 @@
                         android:text="1" />
 
                     <Button
-                        android:id="@+id/provider_plus2"
+                        android:id="@+id/supplier_plus2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -225,17 +225,17 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/provider_price2"
+                    android:id="@+id/supplier_price2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:gravity="center_horizontal"
-                    tools:text="$209.45 / per unit" />
+                    tools:text="$209.45" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/provider_order2"
+                android:id="@+id/supplier_order2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -244,17 +244,17 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/provider_layout3"
+            android:id="@+id/supplier_layout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/provider_name3"
+                android:id="@+id/supplier_name3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="16dp"
-                tools:text="Nintendo" />
+                tools:text="@string/supplier6" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -268,7 +268,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/provider_minus3"
+                        android:id="@+id/supplier_minus3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -283,7 +283,7 @@
                         android:text="1" />
 
                     <Button
-                        android:id="@+id/provider_plus3"
+                        android:id="@+id/supplier_plus3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -291,17 +291,17 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/provider_price3"
+                    android:id="@+id/supplier_price3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:gravity="center_horizontal"
-                    tools:text="$209.45 / per unit" />
+                    tools:text="$209.45" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/provider_order3"
+                android:id="@+id/supplier_order3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
