@@ -154,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void shipmentArrival() {
         ContentValues values = new ContentValues();
         Uri currentItemUri;
+        boolean updateSuccess = false;
+
         for (int i = 0; i < mUpdateIds.size(); i++) {
             int newQuantity = mQuantityArray.get(i) + mEnrouteArray.get(i);
 
@@ -161,13 +163,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             values.put(ItemEntry.COLUMN_ITEM_ENROUTE, 0);
             currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, mUpdateIds.get(i));
             int rowUpdated = getContentResolver().update(currentItemUri, values, null, null);
-            if (rowUpdated != 0) {
-                Toast toast = Toast.makeText(this, getString(R.string.shipment_arrival_success), Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Toast toast = Toast.makeText(this, getString(R.string.shipment_arrival_error), Toast.LENGTH_SHORT);
-                toast.show();
+            if (rowUpdated != 0 || updateSuccess) {
+                updateSuccess = true;
             }
+        }
+
+        if (updateSuccess) {
+            Toast toast = Toast.makeText(this, getString(R.string.shipment_arrival_success), Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(this, getString(R.string.shipment_arrival_error), Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 

@@ -189,17 +189,22 @@ public class SalesActivity extends AppCompatActivity implements LoaderManager.Lo
     private void buyProducts() {
         ContentValues values = new ContentValues();
         Uri currentItemUri;
+        boolean updateSuccess = false;
         for (int i = 0; i < mUpdateIds.size(); i++) {
             values.put(ItemEntry.COLUMN_ITEM_QUANTITY, mQuantityArray.get(i));
             currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, mUpdateIds.get(i));
             int rowUpdated = getContentResolver().update(currentItemUri, values, null, null);
-            if (rowUpdated != 0) {
-                Toast toast = Toast.makeText(this, "Quantities updated", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Toast toast = Toast.makeText(this, "Error updating quantities", Toast.LENGTH_SHORT);
-                toast.show();
+            if (rowUpdated != 0 || updateSuccess) {
+                updateSuccess = true;
             }
+        }
+
+        if (updateSuccess) {
+            Toast toast = Toast.makeText(this, getString(R.string.buy_success), Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(this, getString(R.string.buy_error), Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         finish();

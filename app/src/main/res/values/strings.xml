@@ -50,13 +50,15 @@
     <string name="keep_editing">Keep Editing</string>
 
     <!-- Strings for activity toast messages -->
-    <string name="shipment_arrival_success"></string>
+    <string name="shipment_arrival_success">Shipment has arrived</string>
     <string name="shipment_arrival_error">Error updating quantities</string>
     <string name="delete_item_sucess">Item Deleted</string>
     <string name="delete_item_error">Error in deleting Item</string>
     <string name="enroute_update_success">Enroute updated</string>
     <string name="enroute_update_error">Error updating Enroute</string>
     <string name="saving_supplier_error">Error saving supplier #</string>
+    <string name="buy_success">Quantities updated</string>
+    <string name="buy_error">Error updating quantities</string>
 
     <string name="order_summary_email_subject">ORDER: </string>
 
