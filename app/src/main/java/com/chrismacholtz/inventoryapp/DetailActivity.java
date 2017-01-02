@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.chrismacholtz.inventoryapp.data.ItemContract.ItemEntry;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -317,13 +316,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to load image.", e);
             return null;
-        } finally {
-            try {
-                input.close();
-            } catch (IOException ioe) {
-
-            }
         }
+//        finally {
+//            try {
+//                input.close();
+//            } catch (IOException ioe) {
+//
+//            }
+//        }
     }
 
     private void decrement(int index) {

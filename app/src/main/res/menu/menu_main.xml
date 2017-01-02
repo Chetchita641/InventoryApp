@@ -10,6 +10,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_shipment_arrival"
+        android:title="Shipment Arrival"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_insert_dummy_data"
         android:title="Insert Dummy Data"
         app:showAsAction="never" />
